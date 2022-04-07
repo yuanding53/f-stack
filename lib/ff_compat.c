@@ -76,6 +76,8 @@ int vttoif_tab[10] = {
 };
 
 void ff_init_thread0(void);
+extern unsigned int rand_r(unsigned int *seed);
+unsigned int seed = 0;
 
 void
 resettodr(void)
@@ -294,7 +296,10 @@ arc4rand(void *ptr, unsigned int len, int reseed)
 uint32_t
 arc4random(void)
 {
-    return ff_arc4random();
+    if (seed == 0) {
+        seed = ff_arc4random();
+    }
+    return (uint32_t)rand_r(&seed);
 }
 
 #if 0
